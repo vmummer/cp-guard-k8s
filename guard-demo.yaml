@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: guarddemo 
+  name: guarddemo
+  namespace: lakera 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guarddemo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: guarddemo 
+    spec:
+      containers:
+      - image: vmummer/guard-demo
+        imagePullPolicy: Always  #IfNotPresent
+        name: guarddemo 
+        ports:
+        - containerPort: 3000
+        resources: {}
+        # The following Command overrides the Docker Start command and allowsHosts: true - allows any domain point to port 80
+        #
+        command: ["sh", "-c", "python start_backend.py & npm audit & npx update-browserslist-db@latest && sed -i 's/server: {/server: { allowedHosts: true, /' vite.config.ts && npm run dev -- --host 0.0.0.0"]
+        volumeMounts:
+        - name: data-volume
+          mountPath: /home/lakeraai/data
+        - name: upload-volume
+          mountPath: /home/lakeraai/upload
+     # Volumes
+      volumes:
+        - name: data-volume
+          hostPath:
+            path: /home/vince/guard-data
+            type: DirectoryOrCreate
+        - name: upload-volume
+          hostPath:
+            path: /home/vince/guard-data/uploads
+            type: DirectoryOrCreate
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: guarddemo 
+  name: guarddemo 
+  namespace: lakera 
+spec:
+  ports:
+  - name: 3000-3000
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: guarddemo 
+  type: ClusterIP 
+
+status:
+  loadBalancer: {}
