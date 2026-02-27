@@ -126,3 +126,5 @@ cplabstatus() {
 # Add the alias at the very bottom
 alias cpstatus='cplabstatus'
 
+
+echo  "Copy and past the following URL into your browser to access Laker Guard Demo http://$HOST_IP.nip.io"

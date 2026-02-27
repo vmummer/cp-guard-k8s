@@ -53,9 +53,48 @@ for manifest in namespace.yaml ; do
   fi
 done
 
-echo "Deleting the default ingressclass for nginx"
+log "Deleting the default ingressclass for nginx"
 
-microk8s kubectl delete ingressclass nginx
+microk8s kubectl delete ingressclass nginx  >> "$LOG_FILE" 2>&1 
+
+if [ $? -eq 0 ]; then
+  log "✅ Cleared older if any ingressclass for nginx"
+else
+  log "❌ Failed to clear ingressclass for nginx. See log for details, could be there just was not set."
+fi
+
+
+# Installing Toolhive 
+log  "📄 Install Toolhive "
+
+microk8s.helm upgrade --install toolhive-operator-crds oci://ghcr.io/stacklok/toolhive/toolhive-operator-crds   >> "$LOG_FILE" 2>&1
+
+if [ $? -eq 0 ]; then
+  log "✅ Installed Toolhive Operator CRDS"
+else
+  log "❌ Toolhive Opertor CRDS Failed. See log for details."
+fi
+
+microk8s.helm upgrade --install toolhive-operator oci://ghcr.io/stacklok/toolhive/toolhive-operator -n toolhive-system --create-namespace >> "$LOG_FILE" 2>&1
+
+if [ $? -eq 0 ]; then
+  log "✅ Installed Toolhive Operator OCI"
+else
+  log "❌ Toolhive Opertor OCI Failed. See log for details."
+fi
+
+
+log "Starting the K8S Pods"
+
+microk8s.kubectl apply -f guard-demo.yaml -f ingress.yaml -f mcpserver_fetch.yaml -f mcpserver_filesystem.yaml  >> "$LOG_FILE" 2>&1
+
+if [ $? -eq 0 ]; then
+  log "✅ Deployed K8s Pods -  Lakera Guard, Ingress Controller, MCP Fetc Server and MCP Filesystem Server"
+else
+  log "❌ Errors Deployed K8s Pods. See log for details."
+fi
+
+
+
 
 log "🎉 MicroK8s setup complete. Log saved to '$LOG_FILE'."
-
