@@ -9,7 +9,10 @@ The repository includes the Lakera Guard Client and Backend in a single Pod, Too
 
 Instructions:
 
-* Install microK8s on your Ubuntu System
+* Install microK8s on your Ubuntu System if you have not done so already
+```
+sudo snap install microk8s --classic
+```
 * Clone this repository
 ```
 git clone https://github.com/vmummer/cp-guard-k8s
