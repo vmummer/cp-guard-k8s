@@ -10,6 +10,33 @@ log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
 
+check_microk8s() {
+    if command -v microk8s >/dev/null 2>&1; then
+        if microk8s status | grep -q "microk8s is running"; then
+            log "✅ MicroK8s is intstalled and running, setting up kubectl alias"
+            kubectl() { microk8s.kubectl "$@"; }
+            helm() { /snap/bin/microk8s.helm "$@"; }
+            export -f kubectl
+            export -f helm
+            return 0
+        else
+            log "❌ MicroK8s is installed but not running"
+            return 1
+        fi
+    else
+        log "❌ MicroK8s is not installed"
+        log "Please install MicroK8s using: sudo snap install microk8s --classic"
+        return 1
+    fi
+}
+
+# Call the function
+#
+
+log "🔧 Checking if  MicroK8s is installed..."
+check_microk8s
+
+
 log "🔧 Starting MicroK8s environment setup..."
 
 
@@ -53,7 +80,7 @@ for manifest in namespace.yaml ; do
   fi
 done
 
-log "Deleting the default ingressclass for nginx"
+log "📄 Deleting the default ingressclass for nginx if one was installed in the past "
 
 microk8s kubectl delete ingressclass nginx  >> "$LOG_FILE" 2>&1 
 
@@ -84,12 +111,12 @@ else
 fi
 
 
-log "Starting the K8S Pods"
+log "📄 Starting the K8S Pods"
 
 microk8s.kubectl apply -f guard-demo.yaml -f ingress.yaml -f mcpserver_fetch.yaml -f mcpserver_filesystem.yaml  >> "$LOG_FILE" 2>&1
 
 if [ $? -eq 0 ]; then
-  log "✅ Deployed K8s Pods -  Lakera Guard, Ingress Controller, MCP Fetc Server and MCP Filesystem Server"
+  log "✅ Deployed K8s Pods -  Lakera Guard, Ingress Controller, MCP Fetch Server and MCP Filesystem Server"
 else
   log "❌ Errors Deployed K8s Pods. See log for details."
 fi

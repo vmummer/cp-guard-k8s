@@ -1,0 +1,52 @@
+2026-03-03 15:07:32 - 🔧 Checking if  MicroK8s is installed...
+2026-03-03 15:07:33 - ✅ MicroK8s is intstalled and running, setting up kubectl alias
+2026-03-03 15:07:33 - 🔧 Starting MicroK8s environment setup...
+2026-03-03 15:07:33 - 📡 Enabling DNS add-on (CoreDNS)...
+Infer repository core for addon dns
+Addon core/dns is already enabled
+2026-03-03 15:07:34 - ✅ DNS enabled. Internal service discovery is now active.
+2026-03-03 15:07:34 - 🌐 Enabling Ingress controller (NGINX)...
+Infer repository core for addon ingress
+Addon core/ingress is already enabled
+2026-03-03 15:07:35 - ✅ Ingress enabled. You can now expose services via HTTP/HTTPS.
+2026-03-03 15:07:35 - 💾 Enabling HostPath storage...
+Infer repository core for addon hostpath-storage
+Addon core/hostpath-storage is already enabled
+2026-03-03 15:07:37 - ✅ HostPath storage enabled. PVCs will use local disk paths.
+2026-03-03 15:07:37 - 📄 Applying Kubernetes namespace 
+2026-03-03 15:07:37 - 📄 Applying namespace.yaml...
+namespace/toolhive-system unchanged
+namespace/lakera unchanged
+2026-03-03 15:07:37 - ✅ namespace.yaml applied successfully.
+2026-03-03 15:07:37 - Deleting the default ingressclass for nginx
+Error from server (NotFound): ingressclasses.networking.k8s.io "nginx" not found
+2026-03-03 15:07:38 - ❌ Failed to clear ingressclass for nginx. See log for details, could be there just was not set.
+2026-03-03 15:07:38 - 📄 Install Toolhive 
+Pulled: ghcr.io/stacklok/toolhive/toolhive-operator-crds:0.10.2
+Digest: sha256:6b3c07a04c5a4db14b28ba113b0254d24b509e032138b4cb731126f6c3aea2bf
+Release "toolhive-operator-crds" has been upgraded. Happy Helming!
+NAME: toolhive-operator-crds
+LAST DEPLOYED: Tue Mar  3 15:07:40 2026
+NAMESPACE: default
+STATUS: deployed
+REVISION: 13
+TEST SUITE: None
+2026-03-03 15:07:41 - ✅ Installed Toolhive Operator CRDS
+Pulled: ghcr.io/stacklok/toolhive/toolhive-operator:0.10.2
+Digest: sha256:ff339d15b3ce00c6f22cdb0e41cf082713c1efaef65cb330bb53c3d68cd1d642
+Release "toolhive-operator" has been upgraded. Happy Helming!
+NAME: toolhive-operator
+LAST DEPLOYED: Tue Mar  3 15:07:42 2026
+NAMESPACE: toolhive-system
+STATUS: deployed
+REVISION: 13
+TEST SUITE: None
+2026-03-03 15:07:43 - ✅ Installed Toolhive Operator OCI
+2026-03-03 15:07:43 - Starting the K8S Pods
+deployment.apps/guarddemo configured
+service/guarddemo configured
+ingress.networking.k8s.io/nginx configured
+mcpserver.toolhive.stacklok.dev/fetch unchanged
+mcpserver.toolhive.stacklok.dev/filesystem unchanged
+2026-03-03 15:07:44 - ✅ Deployed K8s Pods -  Lakera Guard, Ingress Controller, MCP Fetch Server and MCP Filesystem Server
+2026-03-03 15:07:44 - 🎉 MicroK8s setup complete. Log saved to 'Guard-LAB-setup-2026-03-03_15-07-32.log'.
