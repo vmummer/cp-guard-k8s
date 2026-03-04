@@ -32,7 +32,7 @@ source cpalias.sh
 ```
 * Note the last line showing the URL you could use to reach the cluster from your local browser.
 
-Copy and past the following URL into your browser to access Laker Guard Demo http://172.29.11.127.nip.io     <<< Note your IP would be different >>>
+Copy and past the following URL into your browser to access Laker Guard Demo http://172.29.11.127.nip.io     <<< Note your IP would be different >>>  
 
 * Use the cphelp command to provide command to assist in this demonstration.
 
