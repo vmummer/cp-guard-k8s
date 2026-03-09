@@ -3,8 +3,8 @@ The purpose of this repository is to provided a deployment demonstration of Chec
 
 The repository includes the Lakera Guard Client and Backend in a single Pod, Toolhive filesystem and fetch MCP servers and an ingress controller.
 
+ <img width="1862" height="1026" alt="image" src="https://github.com/user-attachments/assets/3d93a45b-e864-45d0-be76-bf3d6cd89e1d" />
 
-<img width="1557" height="1038" alt="image" src="https://github.com/user-attachments/assets/c45af9a4-35c1-4412-8b6c-203f0824d326" />
 
 
 
